@@ -33,18 +33,31 @@ int module_exponential_recursive(int n, int b) {
 
 template <int n, int b>
 struct fast_exp {
-	enum {
-      remain = b % 2,
-      s = fast_exp<n, (b - remain) / 2>::value,
-      res = s * s,
-      extra = remain > 0 ? n : 1,
-      value = extra * res
-   };
+    enum {
+        remain = b % 2,
+        s = fast_exp<n, (b - remain) / 2>::value,
+        res = s * s % (1000000007),
+        extra = remain > 0 ? n : 1,
+        value = extra * res % (1000000007),
+        depth = fast_exp<n, (b - remain) / 2>::depth + 1
+    };
 };
 
 template <int n>
 struct fast_exp<n, 0> {
-	enum {
-    value = 1
+    enum {
+        value = 1,
+        depth = 1
   };
 };
+
+using namespace std;
+
+#define N 5
+#define E 100000000
+
+int main(int argc, char const *argv[]) {
+    cout << fast_exp<N, E>::value << endl;
+    cout << fast_exp<N, E>::depth << endl;
+    return 0;
+}

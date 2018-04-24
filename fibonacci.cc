@@ -29,16 +29,34 @@ struct fibonacci {
 	enum {
         a = fibonacci<n - 1>::value,
         b = fibonacci<n - 2>::value,
-        value = a + b
+        value = a + b,
+        depth = fibonacci<n - 1>::depth,
     };
 };
 
 template <>
 struct fibonacci<1> {
-	enum { value = 1 };
+	enum {
+        value = 1,
+        depth = 1
+    };
 };
 
 template <>
 struct fibonacci<2> {
-	enum { value = 1 };
+	enum {
+        value = 1,
+        depth = 1
+    };
 };
+
+using namespace std;
+
+#define N 5
+#define E 100000000
+
+int main(int argc, char const *argv[]) {
+    cout << fibonacci<N>::value << endl;
+    cout << fibonacci<N>::depth << endl;
+    return 0;
+}
